@@ -15,3 +15,5 @@ curl -i -X PUT -U admin:password -H "Content-Type: application/json" -H "Accept:
 # To detele article by Id
 curl -i -X DELETE -U admin:password -H "Content-Type: application/json" -H "Accept: application/json"  http://localhost:8080/v1/articles/Ids/1
 
+
+Note: Swagger is not yet implemented and currently its not working.
