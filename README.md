@@ -1,6 +1,6 @@
 # To run applicaton
 do 'mvn clean package'
-then run 'mvn spring-bbot::run'
+then run 'mvn spring-boot::run' from project folder \git\articles\knowledgeArticles\
 
 
 # To create articles
