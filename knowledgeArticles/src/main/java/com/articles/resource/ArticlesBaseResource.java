@@ -37,7 +37,7 @@ public class ArticlesBaseResource {
 	
 	@GET
 	@PermitAll
-	@ApiOperation(value = "Articles KnowledgeBase Center", produces = "application/json")
+	@ApiOperation(value = "To get all articles", produces = "application/json")
 	public Response getAllArticles() {
 		List<Article> getAllArticles = dataService.getAtricles();
 		if(getAllArticles.isEmpty()) {
@@ -49,6 +49,7 @@ public class ArticlesBaseResource {
 	
 	@POST
 	@PermitAll
+	@ApiOperation(value = "To create list of articles", consumes = "application/json")
 	public Response createArticles(@Valid @NotNull List<Article> articles ) {
 		 List<Article> storedarticles = articles.stream()
 				 .map(article->dataService.saveArticle(article))
@@ -60,6 +61,7 @@ public class ArticlesBaseResource {
 	@GET
 	@Path("/Ids/{id:[0-9][0-9]*}")
 	@PermitAll
+	@ApiOperation(value = "To get specific article by Id", produces = "application/json")
 	public Response getArticleById(@NotNull @PathParam("id") String id) {
 		Article article = dataService.findAtricleById(Integer.parseInt(id));
 		if(article.getTitle()==null || article.getTitle().isEmpty()) {
@@ -73,6 +75,7 @@ public class ArticlesBaseResource {
 	@PUT
 	@Path("/article")
 	@PermitAll
+	@ApiOperation(value = "To update specific article", consumes = "application/json")
 //	@RolesAllowed("ADMIN")
 	public Response updateArticle(@NotNull Article article) {
 		Article updatedArticle = dataService.updateAtricle(article);
@@ -87,6 +90,7 @@ public class ArticlesBaseResource {
 	@DELETE
 	@Path("/Ids/{id:[0-9][0-9]*}")
     @PermitAll
+    @ApiOperation(value = "To delete article by Id", produces = "application/json")
 //	@RolesAllowed("ADMIN")
 	public Response deleteArticleById(@NotNull @PathParam("id") String id) {
 		boolean isDeleted = dataService.deleteAtricleById(Integer.parseInt(id));
