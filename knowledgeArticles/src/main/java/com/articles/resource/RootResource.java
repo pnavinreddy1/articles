@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Path("/v1")
-@Api(value = "Articles KnowledgeBase Center", produces = "application/json")
+@Api(value = "KnowledgeBase Article APIs", produces = "application/json")
 public class RootResource {
 
 	@Context

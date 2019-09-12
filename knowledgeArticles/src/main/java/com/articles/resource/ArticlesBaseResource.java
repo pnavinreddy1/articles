@@ -72,7 +72,8 @@ public class ArticlesBaseResource {
 	
 	@PUT
 	@Path("/article")
-	@RolesAllowed("ADMIN")
+	@PermitAll
+//	@RolesAllowed("ADMIN")
 	public Response updateArticle(@NotNull Article article) {
 		Article updatedArticle = dataService.updateAtricle(article);
 		if(updatedArticle.getTitle()==null || updatedArticle.getTitle().isEmpty()) {
@@ -85,7 +86,8 @@ public class ArticlesBaseResource {
 	
 	@DELETE
 	@Path("/Ids/{id:[0-9][0-9]*}")
-	@RolesAllowed("ADMIN")
+    @PermitAll
+//	@RolesAllowed("ADMIN")
 	public Response deleteArticleById(@NotNull @PathParam("id") String id) {
 		boolean isDeleted = dataService.deleteAtricleById(Integer.parseInt(id));
 		if(!isDeleted) {

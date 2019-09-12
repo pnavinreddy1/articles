@@ -20,23 +20,18 @@ public class ArticlesApplication  {
 		SpringApplication.run(ArticlesApplication.class, args);
 	}
 
-	 @Bean
-	    public Docket documentation()
-	    {
-	        return new Docket(DocumentationType.SWAGGER_2).select()
-	        		.apis(RequestHandlerSelectors.any())
-	        		.paths(PathSelectors.any())
-	                .build()
-	                .enable(true)
-	                .apiInfo(metadata());
-	    }
+	@Bean
+	public Docket documentation() {
+		return new Docket(DocumentationType.SWAGGER_2).select()
+				.apis(RequestHandlerSelectors.any()).paths(PathSelectors.any())
+				.build().enable(true).apiInfo(metadata());
+	}
 
-	    private ApiInfo metadata()
-	    {
-	        return new ApiInfoBuilder().title("Knowledge Articles") //$NON-NLS-1$
-	                .description("Knowledge Articles Center") //$NON-NLS-1$
-	                .version("1.1.6") //$NON-NLS-1$
-	                .build();
-	    }
+	private ApiInfo metadata() {
+		return new ApiInfoBuilder().title("KnowledgeBase Articles Center") //$NON-NLS-1$
+				.description("CMS system") //$NON-NLS-1$
+				.version("1.1.6") //$NON-NLS-1$
+				.build();
+	}
 
 }

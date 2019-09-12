@@ -35,7 +35,7 @@ public class SwaggerConfiguration implements SwaggerResourcesProvider {
         SwaggerResource jerseySwaggerResource = new SwaggerResource();
         jerseySwaggerResource.setLocation("/cms/swagger.json");
         jerseySwaggerResource.setSwaggerVersion("2.0");
-        jerseySwaggerResource.setName("Jersey");
+        jerseySwaggerResource.setName("Articles");
 
         return Stream.concat(Stream.of(jerseySwaggerResource),
                 inMemorySwaggerResourcesProvider.get().stream()).collect(Collectors.toList());
