@@ -14,10 +14,10 @@ $ curl -X GET "http://localhost:8080/cms/v1/articles" -H "accept: application/js
 # To update article
 curl -X PUT "http://localhost:8080/cms/v1/articles/article" -H "accept: application/json" -H "Authorization: sadsa" -H "role: ADMIN" -H "Content-Type: application/json" -d "{ \"docId\": \"string\", \"title\": \"string\", \"content\": \"string\"}"
 
-# To get article by Id
+# To get article by Title
 curl -X GET "http://localhost:8080/cms/v1/articles/Titles/title" -H "accept: application/json" -H "Authorization: asdas"
 
-# To detele article by Id
+# To detele article by Title
 curl -X DELETE "http://localhost:8080/cms/v1/articles/Titles/title" -H "accept: application/json" -H "Authorization: adsas" -H "role: ADMIN"
 
 # To get Token
