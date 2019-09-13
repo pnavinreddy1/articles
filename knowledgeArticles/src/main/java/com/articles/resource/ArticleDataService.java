@@ -32,9 +32,8 @@ public class ArticleDataService {
 
 	public Article updateAtricle(Article inputArticle) {
 		String title = inputArticle.getTitle();
-		if(mapOfArticles.containsKey(title)) {
-			mapOfArticles.put(title, inputArticle);
-		}
+		mapOfArticles.computeIfPresent(title, (k,v)->inputArticle);
+		
 		return mapOfArticles.getOrDefault(title, new Article());
 	}
 
