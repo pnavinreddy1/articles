@@ -74,9 +74,8 @@ public class ArticlesBaseResource {
 	
 	@PUT
 	@Path("/article")
-	@PermitAll
 	@ApiOperation(value = "To update specific article", consumes = "application/json")
-//	@RolesAllowed("ADMIN")
+	@RolesAllowed("ADMIN")
 	public Response updateArticle(@NotNull Article article) {
 		Article updatedArticle = dataService.updateAtricle(article);
 		if(updatedArticle.getTitle()==null || updatedArticle.getTitle().isEmpty()) {
@@ -89,9 +88,8 @@ public class ArticlesBaseResource {
 	
 	@DELETE
 	@Path("/Ids/{id:[0-9][0-9]*}")
-    @PermitAll
     @ApiOperation(value = "To delete article by Id", produces = "application/json")
-//	@RolesAllowed("ADMIN")
+	@RolesAllowed("ADMIN")
 	public Response deleteArticleById(@NotNull @PathParam("id") String id) {
 		boolean isDeleted = dataService.deleteAtricleById(Integer.parseInt(id));
 		if(!isDeleted) {
@@ -101,4 +99,7 @@ public class ArticlesBaseResource {
 		GenericEntity<String> entity= new GenericEntity<String>(String.format("Id: {%s} deleted", id)) {};
 		return Response.status(Status.OK).entity(entity).build();
 	}
+	
+	
+	
 }

@@ -41,8 +41,8 @@ public class JerseyConfig extends ResourceConfig {
 	private void registerEndpoints() {
 		this.register(ApiListingResource.class);
 		this.register(SwaggerSerializers.class);
-		// register(SecurityFilter.class);
-        this.register(RootResource.class);   
-    }
+		this.register(SecurityFilter.class);
+        this.register(RootResource.class);  	
+        }
 
 }
