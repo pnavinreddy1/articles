@@ -1,5 +1,7 @@
 package com.articles.resource;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
@@ -28,7 +30,7 @@ import org.springframework.stereotype.Component;
 import com.articles.domain.Article;
 
 @Component
-@Produces(MediaType.APPLICATION_JSON)
+@Produces({MediaType.APPLICATION_JSON})
 @Consumes({MediaType.APPLICATION_JSON})
 public class ArticlesBaseResource {
 
@@ -37,7 +39,8 @@ public class ArticlesBaseResource {
 	
 	@GET
 	@PermitAll
-	@ApiOperation(value = "To get all articles", produces = "application/json")
+	@ApiOperation(value = "To get all articles")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", value = "Bearer edsjfh2233", paramType = "header") })
 	public Response getAllArticles() {
 		List<Article> getAllArticles = dataService.getAtricles();
 		if(getAllArticles.isEmpty()) {
@@ -50,6 +53,7 @@ public class ArticlesBaseResource {
 	@POST
 	@PermitAll
 	@ApiOperation(value = "To create list of articles", consumes = "application/json")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", value = "Bearer edsjfh2233", paramType = "header") })
 	public Response createArticles(@Valid @NotNull List<Article> articles ) {
 		 List<Article> storedarticles = articles.stream()
 				 .map(article->dataService.saveArticle(article))
@@ -62,6 +66,7 @@ public class ArticlesBaseResource {
 	@Path("/Ids/{id:[0-9][0-9]*}")
 	@PermitAll
 	@ApiOperation(value = "To get specific article by Id", produces = "application/json")
+	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", value = "Bearer edsjfh2233", paramType = "header") })
 	public Response getArticleById(@NotNull @PathParam("id") String id) {
 		Article article = dataService.findAtricleById(Integer.parseInt(id));
 		if(article.getTitle()==null || article.getTitle().isEmpty()) {
@@ -76,6 +81,9 @@ public class ArticlesBaseResource {
 	@Path("/article")
 	@ApiOperation(value = "To update specific article", consumes = "application/json")
 	@RolesAllowed("ADMIN")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "Authorization", value = "Bearer edsjfh2233", paramType = "header"),
+		@ApiImplicitParam(name = "role", value = "ADMIN", paramType = "header") })
 	public Response updateArticle(@NotNull Article article) {
 		Article updatedArticle = dataService.updateAtricle(article);
 		if(updatedArticle.getTitle()==null || updatedArticle.getTitle().isEmpty()) {
@@ -90,6 +98,9 @@ public class ArticlesBaseResource {
 	@Path("/Ids/{id:[0-9][0-9]*}")
     @ApiOperation(value = "To delete article by Id", produces = "application/json")
 	@RolesAllowed("ADMIN")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "Authorization", value = "Bearer edsjfh2233", paramType = "header"),
+		@ApiImplicitParam(name = "role", value = "ADMIN", paramType = "header") })
 	public Response deleteArticleById(@NotNull @PathParam("id") String id) {
 		boolean isDeleted = dataService.deleteAtricleById(Integer.parseInt(id));
 		if(!isDeleted) {
@@ -99,7 +110,5 @@ public class ArticlesBaseResource {
 		GenericEntity<String> entity= new GenericEntity<String>(String.format("Id: {%s} deleted", id)) {};
 		return Response.status(Status.OK).entity(entity).build();
 	}
-	
-	
 	
 }
