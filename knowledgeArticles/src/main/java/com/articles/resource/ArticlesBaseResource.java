@@ -63,15 +63,15 @@ public class ArticlesBaseResource {
 	}
 	
 	@GET
-	@Path("/Ids/{id:[0-9][0-9]*}")
+	@Path("/Titles/{title}")
 	@PermitAll
-	@ApiOperation(value = "To get specific article by Id", produces = "application/json")
+	@ApiOperation(value = "To get specific article by Title", produces = "application/json")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "Authorization", value = "Bearer edsjfh2233", paramType = "header") })
-	public Response getArticleById(@NotNull @PathParam("id") String id) {
-		Article article = dataService.findAtricleById(Integer.parseInt(id));
+	public Response getArticleByTitle(@NotNull @PathParam("title") String title) {
+		Article article = dataService.findAtricleByTitle(title);
 		if(article.getTitle()==null || article.getTitle().isEmpty()) {
 			return Response.status(Status.NOT_FOUND)
-					.entity(String.format("Id: {%s} does not exists", id)).build();
+					.entity(String.format("Title: {%s} does not exists", title)).build();
 		}
 		GenericEntity<Article> entity= new GenericEntity<Article>(article) {};
 		return Response.status(Status.OK).entity(entity).build();
@@ -88,26 +88,26 @@ public class ArticlesBaseResource {
 		Article updatedArticle = dataService.updateAtricle(article);
 		if(updatedArticle.getTitle()==null || updatedArticle.getTitle().isEmpty()) {
 			return Response.status(Status.BAD_REQUEST)
-					.entity(String.format("Id: {%s} does not exists", article.getDocId())).build();
+					.entity(String.format("Title: {%s} does not exists", article.getTitle())).build();
 		}
 		GenericEntity<Article> entity= new GenericEntity<Article>(updatedArticle) {};
 		return Response.status(Status.OK).entity(entity).build();
 	}
 	
 	@DELETE
-	@Path("/Ids/{id:[0-9][0-9]*}")
-    @ApiOperation(value = "To delete article by Id", produces = "application/json")
+	@Path("/Titles/{title}")
+    @ApiOperation(value = "To delete article by Title", produces = "application/json")
 	@RolesAllowed("ADMIN")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "Authorization", value = "Bearer edsjfh2233", paramType = "header"),
 		@ApiImplicitParam(name = "role", value = "ADMIN", paramType = "header") })
-	public Response deleteArticleById(@NotNull @PathParam("id") String id) {
-		boolean isDeleted = dataService.deleteAtricleById(Integer.parseInt(id));
+	public Response deleteArticleByTitle(@NotNull @PathParam("title") String title) {
+		boolean isDeleted = dataService.deleteAtricleByTitle(title);
 		if(!isDeleted) {
 			return Response.status(Status.BAD_REQUEST)
-					.entity(String.format("Id: {%s} not deleted", id)).build();
+					.entity(String.format("Title: {%s} not deleted", title)).build();
 		}
-		GenericEntity<String> entity= new GenericEntity<String>(String.format("Id: {%s} deleted", id)) {};
+		GenericEntity<String> entity= new GenericEntity<String>(String.format("Title: {%s} deleted", title)) {};
 		return Response.status(Status.OK).entity(entity).build();
 	}
 	

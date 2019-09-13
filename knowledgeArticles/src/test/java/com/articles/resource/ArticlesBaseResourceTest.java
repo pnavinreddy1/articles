@@ -37,7 +37,7 @@ public class ArticlesBaseResourceTest {
 	public void setUp() throws Exception {
 		article.setContent("content");
 		article.setTitle("title");
-		article.setDocId(1);
+		article.setDocId("1");
 	}
 
 	@Test
@@ -62,8 +62,8 @@ public class ArticlesBaseResourceTest {
 	@Test
 	public void testNotDeletedArticle() {
 		articles.add(article);
-		when(mockService.deleteAtricleById(Mockito.anyInt())).thenReturn(false);
-		Response actualResponse = testSubject.deleteArticleById("1");
+		when(mockService.deleteAtricleByTitle(Mockito.anyString())).thenReturn(false);
+		Response actualResponse = testSubject.deleteArticleByTitle("1");
 		assertThat(actualResponse.getStatusInfo(), is(Status.BAD_REQUEST));
 		assertThat(actualResponse.getEntity(), is(notNullValue()));
 		
@@ -72,8 +72,8 @@ public class ArticlesBaseResourceTest {
 	@Test
 	public void testDeletedArticle() {
 		articles.add(article);
-		when(mockService.deleteAtricleById(Mockito.anyInt())).thenReturn(true);
-		Response actualResponse = testSubject.deleteArticleById("1");
+		when(mockService.deleteAtricleByTitle(Mockito.anyString())).thenReturn(true);
+		Response actualResponse = testSubject.deleteArticleByTitle("1");
 		assertThat(actualResponse.getStatusInfo(), is(Status.OK));
 		assertThat(actualResponse.getEntity(), is(notNullValue()));
 		

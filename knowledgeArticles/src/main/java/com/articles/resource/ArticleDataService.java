@@ -1,8 +1,11 @@
 package com.articles.resource;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -10,42 +13,34 @@ import com.articles.domain.Article;
 
 @Service
 public class ArticleDataService {
-	private static List<Article> articles = new ArrayList<>();
-	private static AtomicInteger at = new AtomicInteger(0);
+	private Map<String, Article> mapOfArticles = new ConcurrentHashMap<>();
 
-	public int getNextCountValue() {
-		return at.incrementAndGet();
-	}
-
-	public Article saveArticle(Article article) {
-		article.setDocId(getNextCountValue());
-		articles.add(article);
+	public Article saveArticle(Article article)  {
+		Supplier<String> uuidSupplier = () -> UUID.randomUUID().toString();
+		article.setDocId(uuidSupplier.get());
+		mapOfArticles.put(article.getTitle(), article);
 		return article;
 	}
 
 	public List<Article> getAtricles() {
-		return articles;
+		return mapOfArticles.values().stream().collect(Collectors.toList());
 	}
 
-	public Article findAtricleById(int id) {
-		return articles.stream()
-				.filter(article -> article.getDocId()== id)
-				.findAny().orElse(new Article());
+	public Article findAtricleByTitle(String title) {
+		return mapOfArticles.getOrDefault(title, new Article());
 	}
 
 	public Article updateAtricle(Article inputArticle) {
-		Article existingArticle = findAtricleById(inputArticle.getDocId());
-		if(existingArticle.getTitle()!=null) {
-			existingArticle.setTitle(inputArticle.getTitle());
-			existingArticle.setContent(inputArticle.getContent());
+		String title = inputArticle.getTitle();
+		if(mapOfArticles.containsKey(title)) {
+			mapOfArticles.put(title, inputArticle);
 		}
-		return existingArticle;
+		return mapOfArticles.getOrDefault(title, new Article());
 	}
 
-	public boolean deleteAtricleById(int id) {
-		Article existingArticle = findAtricleById(id);
-		if(existingArticle.getTitle()!=null) {
-			articles.remove(existingArticle);
+	public boolean deleteAtricleByTitle(String title) {
+		if(mapOfArticles.containsKey(title)) {
+			mapOfArticles.remove(title);
 			return true;
 		}
 		return false;
